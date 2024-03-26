@@ -1,0 +1,1742 @@
+[1] "Coal_Share_Ret"
+
+Call:
+lm(formula = formula_str, data = coal_model_small)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-18.316  -6.073  -2.228   2RStudioGD 
+        2 
+package ‘mnormt’ successfully unpacked and MD5 sums checked
+package ‘pbivnorm’ successfully unpacked and MD5 sums checked
+package ‘quadprog’ successfully unpacked and MD5 sums checked
+package ‘lavaan’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\jx920\AppData\Local\Temp\RtmpeOmBqE\downloaded_packages
+
+> library(lavaan)
+
+> current_dir <- "analysis/temporal_country_models"
+
+> #sem_dir <- "analysis/temporal_country_models/feature_selection"
+> source(file.path(current_dir,"helper_function.R"))
+
+> ### LOAD DATA
+> # import data file
+> data_path <- file.path(current_dir,"coal_data_deletion.csv")
+
+> deletion_data <- read.csv(data_path)
+
+> # set the first column as row name then delete
+> rownames(deletion_data) <- deletion_data$X
+
+> deletion_data <- deletion_data[,-1:-2]
+                                    year Coal_AnnualMtCO2 Coal_duration_year Coal_Share_Ret
+year                        4.259942e+01     3.398188e+02       2.108184e+01   2.736252e+01
+Coal_AnnualMtCO2            3.398188e+02     3.885123e+05       4.518547e+03  -7.832583e+01
+Coal_duration_year          2.108184e+01     4.518547e+03       4.403340e+02   4.403564e+01
+Coal_Share_Ret              2.736252e+01    -7.832583e+01       4.403564e+01   1.689717e+02
+Coal_Share_EarlyRet         1.504060e+00     2.271897e+02       5.647838e+00   3.700611e+00
+Coal_Share_Tran             7.530951e+00     3.889250e+01       1.683138e+01   3.155689e+01
+Coal_Share_PhasedOut        3.152886e+01    -7.237363e+02       4.238799e+01   1.993978e+02
+Coal_logCurrent_MW         -3.322354e-01     8.584237e+02       3.704968e+01  -4.387118e+00
+WDI_Manu_GDP_.             -8.040548e+00     1.054690e+03      -1.033224e+01  -1.184224e+01
+WDI_CoalRents_.            -2.239931e-02     1.049529e+02       3.178959e+00  -1.192721e+00
+WDI_OilRents_.             -7.031954e-01    -9.634906e+01       1.467358e+01  -6.012169e+00
+WDI_NGRents_.               2.435387e-01    -2.575360e+01       2.250728e+00  -1.674999e+00
+WDI_Coal_El_.               2.237974e+01     8.314174e+02       3.012902e+01  -3.456553e+01
+WDI_NG_El_.                -2.499989e+01     3.077703e+03       1.157721e+02  -5.052525e+01
+logGDPpc                    3.711879e-01     2.217390e+01       8.004623e+00   4.561654e+00
+BP_GasReserve_tM3           2.521246e+00     7.341665e+02       3.919078e+01  -3.500854e+00
+BP_GasProduction_bM3        6.051568e+01     3.776616e+04       1.250653e+03   2.105236e+01
+BP_CoalProduction_mTon      3.197099e+02     3.318131e+05       3.477474e+03  -1.945426e+02
+BP_CoalReserve_mTon         2.008874e+04     2.299715e+07       6.073987e+05  -3.526763e+04
+BP_GasR2P_yr               -4.518432e+00     2.446705e+03       1.706635e+02  -5.275207e+01
+BP_CoalR2P_yr              -2.530209e+01     1.363455e+03       1.084039e+03  -3.644830e+02
+HHI_LNG_Import             -3.660417e-01    -4.087264e+01      -7.063855e-01  -4.261031e-01
+Value_LNG_Import            2.895558e+06     1.067230e+09       1.135342e+07   1.630672e+06
+                           Coal_Share_EarlyRet Coal_Share_Tran Coal_Share_PhasedOut
+year                              1.504060e+00    7.530951e+00         3.152886e+01
+Coal_AnnualMtCO2                  2.271897e+02    3.889250e+01        -7.237363e+02
+Coal_duration_year                5.647838e+00    1.683138e+01         4.238799e+01
+Coal_Share_Ret                    3.700611e+00    3.155689e+01         1.993978e+02
+Coal_Share_EarlyRet               9.380805e-01    4.139949e-01         4.076618e+00
+Coal_Share_Tran                   4.139949e-01    1.702070e+01         4.802068e+01
+Coal_Share_PhasedOut              4.076618e+00    4.802068e+01         2.570187e+02
+Coal_logCurrent_MW                5.722334e-01   -1.521369e-01        -6.518084e+00
+WDI_Manu_GDP_.                    8.648899e-01   -3.498272e+00        -1.779802e+01
+WDI_CoalRents_.                   1.047851e-02   -2.876576e-01        -1.606873e+00
+WDI_OilRents_.                   -3.244162e-01   -1.149070e+00        -7.188287e+00
+WDI_NGRents_.                    -8.643113e-02   -2.614247e-01        -1.909410e+00
+WDI_Coal_El_.                     1.355746e-01   -3.865012e+00        -4.169317e+01
+WDI_NG_El_.                      -1.006649e+00   -1.734414e+00        -5.382223e+01
+logGDPpc                          1.393132e-01    1.150049e+00         5.756456e+00
+BP_GasReserve_tM3                 5.466563e-02    1.223235e+00        -4.937463e+00
+BP_GasProduction_bM3              2.405976e+00    7.473168e+01         9.449738e+00
+BP_CoalProduction_mTon            2.002149e+02   -2.965416e+01        -7.897791e+02
+BP_CoalReserve_mTon               6.966877e+03    2.052137e+04        -6.537875e+04
+BP_GasR2P_yr                     -3.322428e-01   -9.150634e+00        -6.999625e+01
+BP_CoalR2P_yr                    -2.286846e+01   -5.025034e+01        -5.558108e+02
+HHI_LNG_Import                   -4.270505e-02   -8.382341e-03        -3.727079e-01
+Value_LNG_Import                  7.757442e+05    4.496766e+05         1.074565e+05
+                           Coal_logCurrent_MW WDI_Manu_GDP_. WDI_CoalRents_. WDI_OilRents_.
+year                            -3.322354e-01  -8.040548e+00   -2.239931e-02  -7.031954e-01
+Coal_AnnualMtCO2                 8.584237e+02   1.054690e+03    1.049529e+02  -9.634906e+01
+Coal_duration_year               3.704968e+01  -1.033224e+01    3.178959e+00   1.467358e+01
+Coal_Share_Ret                  -4.387118e+00  -1.184224e+01   -1.192721e+00  -6.012169e+00
+Coal_Share_EarlyRet              5.722334e-01   8.648899e-01    1.047851e-02  -3.244162e-01
+Coal_Share_Tran                 -1.521369e-01  -3.498272e+00   -2.876576e-01  -1.149070e+00
+Coal_Share_PhasedOut            -6.518084e+00  -1.779802e+01   -1.606873e+00  -7.188287e+00
+Coal_logCurrent_MW               5.731914e+00   3.044688e+00    5.836335e-01   1.429426e+00
+WDI_Manu_GDP_.                   3.044688e+00   2.957433e+01    4.850233e-01  -7.885334e-01
+WDI_CoalRents_.                  5.836335e-01   4.850233e-01    4.238565e-01   8.491240e-01
+WDI_OilRents_.                   1.429426e+00  -7.885334e-01    8.491240e-01   1.164706e+01
+WDI_NGRents_.                    3.686658e-01  -1.593144e-01    8.934679e-02   1.719820e+00
+WDI_Coal_El_.                    1.062650e+01   1.172487e+01   -1.131458e+00   7.792870e+00
+WDI_NG_El_.                      2.646459e+01   1.258712e+01    7.554020e+00   1.303586e+01
+logGDPpc                         4.669154e-01  -1.003408e+00   -1.053670e-01  -4.845484e-02
+BP_GasReserve_tM3                4.661919e+00  -1.781793e+00    4.447254e-01   8.133498e+00
+BP_GasProduction_bM3             1.706234e+02  -7.852264e+01    6.110325e+00   1.132597e+02
+BP_CoalProduction_mTon           7.392265e+02   1.110374e+03    1.327482e+02   2.847096e+00
+BP_CoalReserve_mTon              8.587761e+04  -6.692850e+03    8.885439e+03   2.906706e+04
+BP_GasR2P_yr                     2.583023e+01   9.015516e+00    7.717473e+00   5.581992e+01
+BP_CoalR2P_yr                    1.078701e+02  -2.703733e+02    1.000018e+01   1.904182e+02
+HHI_LNG_Import                  -1.119695e-01  -4.794267e-02   -2.465036e-02  -6.684970e-02
+Value_LNG_Import                 2.127111e+06   2.795149e+06    1.897127e+05  -5.418895e+05
+                           WDI_NGRents_. WDI_Coal_El_.   WDI_NG_El_.      logGDPpc
+year                        2.435387e-01  2.237974e+01 -2.499989e+01  3.711879e-01
+Coal_AnnualMtCO2           -2.575360e+01  8.314174e+02  3.077703e+03  2.217390e+01
+Coal_duration_year          2.250728e+00  3.012902e+01  1.157721e+02  8.004623e+00
+Coal_Share_Ret             -1.674999e+00 -3.456553e+01 -5.052525e+01  4.561654e+00
+Coal_Share_EarlyRet        -8.643113e-02  1.355746e-01 -1.006649e+00  1.393132e-01
+Coal_Share_Tran            -2.614247e-01 -3.865012e+00 -1.734414e+00  1.150049e+00
+Coal_Share_PhasedOut       -1.909410e+00 -4.169317e+01 -5.382223e+01  5.756456e+00
+Coal_logCurrent_MW          3.686658e-01  1.062650e+01  2.646459e+01  4.669154e-01
+WDI_Manu_GDP_.             -1.593144e-01  1.172487e+01  1.258712e+01 -1.003408e+00
+WDI_CoalRents_.             8.934679e-02 -1.131458e+00  7.554020e+00 -1.053670e-01
+WDI_OilRents_.              1.719820e+00  7.792870e+00  1.303586e+01 -4.845484e-02
+WDI_NGRents_.               1.246086e+00  7.124149e+00 -3.371241e-01 -2.977978e-02
+WDI_Coal_El_.               7.124149e+00  5.509219e+02 -2.239675e+02 -2.600959e+00
+WDI_NG_El_.                -3.371241e-01 -2.239675e+02  7.260396e+02  5.434763e-02
+logGDPpc                   -2.977978e-02 -2.600959e+00  5.434763e-02  7.415410e-01
+BP_GasReserve_tM3           3.178934e+00  1.959881e+01  2.721062e+00  5.860231e-01
+BP_GasProduction_bM3        5.363639e+01  3.928593e+02  2.157903e+02  3.333207e+01
+BP_CoalProduction_mTon     -5.180210e+00  4.664823e+02  3.393764e+03 -1.060642e+01
+BP_CoalReserve_mTon         1.169377e+04  1.310138e+05  3.209526e+05  9.264138e+03
+BP_GasR2P_yr                8.388841e+00  6.417314e+01  1.527748e+02 -2.809731e+00
+BP_CoalR2P_yr               7.218362e+01  1.295759e+01 -8.089681e+02 -2.626403e+01
+HHI_LNG_Import              1.649270e-02  8.075499e-01 -6.374568e-01 -1.723654e-02
+Value_LNG_Import           -1.621548e+05  7.701931e+06  2.909568e+06 -8.304994e+04
+                           BP_GasReserve_tM3 BP_GasProduction_bM3 BP_CoalProduction_mTon
+year                            2.521246e+00         6.051568e+01           3.197099e+02
+Coal_AnnualMtCO2                7.341665e+02         3.776616e+04           3.318131e+05
+Coal_duration_year              3.919078e+01         1.250653e+03           3.477474e+03
+Coal_Share_Ret                 -3.500854e+00         2.105236e+01          -1.945426e+02
+Coal_Share_EarlyRet             5.466563e-02         2.405976e+00           2.002149e+02
+Coal_Share_Tran                 1.223235e+00         7.473168e+01          -2.965416e+01
+Coal_Share_PhasedOut           -4.937463e+00         9.449738e+00          -7.897791e+02
+Coal_logCurrent_MW              4.661919e+00         1.706234e+02           7.392265e+02
+WDI_Manu_GDP_.                 -1.781793e+00        -7.852264e+01           1.110374e+03
+WDI_CoalRents_.                 4.447254e-01         6.110325e+00           1.327482e+02
+WDI_OilRents_.                  8.133498e+00         1.132597e+02           2.847096e+00
+WDI_NGRents_.                   3.178934e+00         5.363639e+01          -5.180210e+00
+WDI_Coal_El_.                   1.959881e+01         3.928593e+02           4.664823e+02
+WDI_NG_El_.                     2.721062e+00         2.157903e+02           3.393764e+03
+logGDPpc                        5.860231e-01         3.333207e+01          -1.060642e+01
+BP_GasReserve_tM3               3.481279e+01         7.008363e+02           6.789762e+02
+BP_GasProduction_bM3            7.008363e+02         2.209395e+04           2.539372e+04
+BP_CoalProduction_mTon          6.789762e+02         2.539372e+04           3.091625e+05
+BP_CoalReserve_mTon             2.002513e+05         6.944702e+06           1.812116e+07
+BP_GasR2P_yr                    5.196543e+01         7.854729e+02           2.933890e+03
+BP_CoalR2P_yr                   3.738711e+02         8.783980e+03          -1.565987e+03
+HHI_LNG_Import                 -3.764440e-03        -3.854917e+00          -2.879806e+01
+Value_LNG_Import                8.673049e+05         4.101396e+07           8.899264e+08
+                           BP_CoalReserve_mTon  BP_GasR2P_yr BP_CoalR2P_yr HHI_LNG_Import
+year                              2.008874e+04 -4.518432e+00 -2.530209e+01  -3.660417e-01
+Coal_AnnualMtCO2                  2.299715e+07  2.446705e+03  1.363455e+03  -4.087264e+01
+Coal_duration_year                6.073987e+05  1.706635e+02  1.084039e+03  -7.063855e-01
+Coal_Share_Ret                   -3.526763e+04 -5.275207e+01 -3.644830e+02  -4.261031e-01
+Coal_Share_EarlyRet               6.966877e+03 -3.322428e-01 -2.286846e+01  -4.270505e-02
+Coal_Share_Tran                   2.052137e+04 -9.150634e+00 -5.025034e+01  -8.382341e-03
+Coal_Share_PhasedOut             -6.537875e+04 -6.999625e+01 -5.558108e+02  -3.727079e-01
+Coal_logCurrent_MW                8.587761e+04  2.583023e+01  1.078701e+02  -1.119695e-01
+WDI_Manu_GDP_.                   -6.692850e+03  9.015516e+00 -2.703733e+02  -4.794267e-02
+WDI_CoalRents_.                   8.885439e+03  7.717473e+00  1.000018e+01  -2.465036e-02
+WDI_OilRents_.                    2.906706e+04  5.581992e+01  1.904182e+02  -6.684970e-02
+WDI_NGRents_.                     1.169377e+04  8.388841e+00  7.218362e+01   1.649270e-02
+WDI_Coal_El_.                     1.310138e+05  6.417314e+01  1.295759e+01   8.075499e-01
+WDI_NG_El_.                       3.209526e+05  1.527748e+02 -8.089681e+02  -6.374568e-01
+logGDPpc                          9.264138e+03 -2.809731e+00 -2.626403e+01  -1.723654e-02
+BP_GasReserve_tM3                 2.002513e+05  5.196543e+01  3.738711e+02  -3.764440e-03
+BP_GasProduction_bM3              6.944702e+06  7.854729e+02  8.783980e+03  -3.854917e+00
+BP_CoalProduction_mTon            1.812116e+07  2.933890e+03 -1.565987e+03  -2.879806e+01
+BP_CoalReserve_mTon               3.086738e+09  4.430359e+05  3.552256e+06  -2.446181e+03
+BP_GasR2P_yr                      4.430359e+05  6.105052e+02  2.602067e+03  -7.756525e-01
+BP_CoalR2P_yr                     3.552256e+06  2.602067e+03  7.504685e+04  -1.212776e+01
+HHI_LNG_Import                   -2.446181e+03 -7.756525e-01 -1.212776e+01   1.186424e-01
+Value_LNG_Import                  4.181660e+10  6.621422e+06 -2.270000e+07  -1.464598e+05
+                           Value_LNG_Import contiguity_LNG_Import agree_LNG_Import
+year                           2.895558e+06         -2.823979e-02    -2.075690e-01
+Coal_AnnualMtCO2               1.067230e+09         -3.331397e+01    -1.175871e+01
+Coal_duration_year             1.135342e+07         -3.727860e-01    -5.161561e-01
+Coal_Share_Ret                 1.630672e+06         -3.896700e-02    -2.466782e-01
+Coal_Share_EarlyRet            7.757442e+05         -1.456121e-02     2.883165e-03
+Coal_Share_Tran                4.496766e+05         -2.073197e-01    -2.357096e-01
+Coal_Share_PhasedOut           1.074565e+05         -2.654551e-01    -5.069969e-01
+Coal_logCurrent_MW             2.127111e+06         -1.725792e-01    -8.936345e-02
+WDI_Manu_GDP_.                 2.795149e+06         -1.085629e-01    -6.801854e-02
+WDI_CoalRents_.                1.897127e+05         -3.397332e-02    -3.466491e-02
+WDI_OilRents_.                -5.418895e+05          5.692437e-02    -6.749303e-02
+WDI_NGRents_.                 -1.621548e+05         -5.805403e-03    -3.803511e-03
+WDI_Coal_El_.                  7.701931e+06          2.537588e-03     5.790068e-01
+WDI_NG_El_.                    2.909568e+06         -1.567796e+00    -1.074150e+00
+logGDPpc                      -8.304994e+04         -5.272241e-03     8.020059e-03
+BP_GasReserve_tM3              8.673049e+05         -4.698231e-02    -2.958462e-01
+BP_GasProduction_bM3           4.101396e+07         -3.863223e+00    -6.697069e+00
+BP_CoalProduction_mTon         8.899264e+08         -2.933347e+01    -5.510487e+00
+BP_CoalReserve_mTon            4.181660e+10         -3.637627e+03    -3.186978e+03
+BP_GasR2P_yr                   6.621422e+06         -7.505140e-01    -1.855830e+00
+BP_CoalR2P_yr                 -2.270000e+07         -1.138597e+01    -2.007373e+01
+HHI_LNG_Import                -1.464598e+05          3.693293e-02     6.924152e-02
+Value_LNG_Import               5.094395e+12         -1.002648e+05    -5.264818e+04
+                           sanction_LNG_Import common_language_LNG_Import colony_LNG_Import
+year                             -3.109665e-01               4.077402e-02     -7.392794e-02
+Coal_AnnualMtCO2                 -8.396299e+00              -1.142861e+01     -8.250661e+00
+Coal_duration_year               -5.378471e-01              -1.318999e+00      2.524996e-01
+Coal_Share_Ret                   -1.692427e-01              -5.164307e-01     -1.307495e-01
+Coal_Share_EarlyRet              -1.340428e-02              -5.743564e-02      2.544495e-03
+Coal_Share_Tran                  -6.058761e-02              -2.035626e-01     -4.651315e-02
+Coal_Share_PhasedOut             -2.129462e-01              -7.241508e-01     -1.781996e-01
+Coal_logCurrent_MW                9.986197e-03              -8.924637e-02      7.933096e-03
+WDI_Manu_GDP_.                   -1.205536e-02              -2.006058e-01      8.012754e-03
+WDI_CoalRents_.                  -4.099228e-03              -2.162382e-02      1.398916e-03
+WDI_OilRents_.                    3.795403e-02              -9.122914e-02      1.070404e-01
+WDI_NGRents_.                     1.212977e-02               2.495306e-03     -7.942761e-03
+WDI_Coal_El_.                    -2.519147e-01               1.364596e+00     -2.159957e-03
+WDI_NG_El_.                      -3.439899e-01              -2.622467e+00      8.405352e-01
+logGDPpc                         -6.814555e-04              -5.695172e-02     -9.616685e-03
+BP_GasReserve_tM3                -5.117989e-03              -2.590519e-01     -6.617825e-02
+BP_GasProduction_bM3              8.409890e-01               7.980765e-01     -2.632612e+00
+BP_CoalProduction_mTon           -6.290193e+00              -1.357808e+01     -7.253577e+00
+BP_CoalReserve_mTon              -5.053841e+02               2.074405e+02     -8.383170e+02
+BP_GasR2P_yr                      9.100844e-02              -3.652962e-01      2.954953e-01
+BP_CoalR2P_yr                     4.317540e+00               3.174422e+00     -3.147326e+00
+HHI_LNG_Import                    1.381521e-02               5.474897e-02      1.343079e-02
+Value_LNG_Import                 -3.427243e+04               2.809245e+04     -3.489251e+04
+                           HHI_LNG_Export Value_LNG_Export contiguity_LNG_Export agree_LNG_Export
+year                        -1.787764e-01     2.658524e+06         -3.818995e-02     1.382328e-01
+Coal_AnnualMtCO2             4.201847e-01     1.742339e+07          1.187773e+01     1.603844e+01
+Coal_duration_year           3.546595e-01     4.773520e+06          7.163321e-01     1.575329e+00
+Coal_Share_Ret              -1.717807e-01     1.914307e+05          1.708360e-02     5.346172e-01
+Coal_Share_EarlyRet          4.614763e-02    -4.835083e+04          7.257626e-03     5.515365e-02
+Coal_Share_Tran             -2.135952e-01     1.441789e+06         -2.076885e-01     1.129441e-01
+Coal_Share_PhasedOut        -3.846568e-01     1.539027e+06         -3.535542e-01     5.642502e-01
+Coal_logCurrent_MW           3.504002e-02     1.424880e+06         -1.766830e-02     1.423655e-01
+WDI_Manu_GDP_.               3.029369e-01    -1.327205e+06          4.752585e-01     5.011719e-01
+WDI_CoalRents_.              1.054163e-03     4.586798e+05          9.774715e-03     1.010524e-02
+WDI_OilRents_.               1.093199e-01     5.317857e+05          2.944117e-02     3.931885e-02
+WDI_NGRents_.               -2.548017e-02     4.702949e+05         -3.649812e-02    -2.212291e-02
+WDI_Coal_El_.               -9.313781e-01     7.906247e+06         -3.317148e-01    -8.853613e-02
+WDI_NG_El_.                 -6.926445e-01     7.735967e+06         -1.612402e+00    -8.860962e-01
+logGDPpc                     4.537961e-02     2.929427e+05         -2.252774e-02     7.128812e-02
+BP_GasReserve_tM3           -6.094847e-02     3.774374e+06         -1.603178e-01    -9.100221e-02
+BP_GasProduction_bM3        -5.055149e+00     1.062726e+08         -4.867158e+00    -2.907545e+00
+BP_CoalProduction_mTon       4.865551e+00     1.643743e+08          9.812811e+00     1.741837e+01
+BP_CoalReserve_mTon         -6.635015e+02     4.961314e+10         -2.962092e+02     6.084491e+02
+BP_GasR2P_yr                 1.320358e+00     1.316002e+07          9.183946e-01     1.027010e+00
+BP_CoalR2P_yr                3.085782e-01     3.964051e+07         -2.188657e+00    -3.546979e+00
+HHI_LNG_Import              -2.395794e-02     7.871143e+04         -1.036550e-02    -1.569471e-02
+Value_LNG_Import             2.990903e+04    -3.097002e+11          6.190230e+04     6.267476e+04
+                           sanction_LNG_Export common_language_LNG_Export colony_LNG_Export
+year                             -1.818749e-01               1.500804e-01     -3.314411e-03
+Coal_AnnualMtCO2                  1.513560e+01               4.744201e+00     -1.684636e+00
+Coal_duration_year                9.750413e-02              -1.795472e-01      9.204140e-02
+Coal_Share_Ret                   -1.192722e-01               3.676827e-01     -5.338012e-02
+Coal_Share_EarlyRet              -8.034751e-03               2.207621e-02     -5.374399e-03
+Coal_Share_Tran                  -3.516009e-02              -8.223791e-02     -9.062097e-03
+Coal_Share_PhasedOut             -1.536816e-01               1.187576e-01     -5.556565e-02
+Coal_logCurrent_MW                6.583818e-02              -7.506247e-02     -3.425017e-03
+WDI_Manu_GDP_.                    1.048689e-02               3.383758e-01     -3.363141e-02
+WDI_CoalRents_.                  -6.697861e-04              -5.671849e-03     -2.469737e-03
+WDI_OilRents_.                    5.603879e-02              -2.058395e-02      4.485022e-02
+WDI_NGRents_.                    -4.624373e-03              -6.493575e-02     -2.432257e-03
+WDI_Coal_El_.                     2.521820e-01              -4.845329e-01     -1.239695e-01
+WDI_NG_El_.                       6.085719e-02              -2.570625e+00      3.462260e-01
+logGDPpc                          8.837908e-03              -2.378948e-02     -7.366802e-03
+BP_GasReserve_tM3                 2.285434e-02              -4.204440e-01     -7.946102e-03
+BP_GasProduction_bM3              5.110674e+00              -6.427987e+00      2.130202e-01
+BP_CoalProduction_mTon            6.425131e+00               1.111123e+00     -2.163237e+00
+BP_CoalReserve_mTon               2.311217e+03              -1.109585e+03      7.460712e+00
+BP_GasR2P_yr                      3.439599e-01               4.023282e-01      3.538366e-01
+BP_CoalR2P_yr                     1.061039e+00               5.478234e+00      9.805320e-01
+HHI_LNG_Import                   -7.691968e-03              -2.796763e-02      1.300708e-03
+Value_LNG_Import                  8.400274e+03               6.652760e+04     -1.003204e+04
+                           R_IndepProducer     R_Private    R_Unbundle   R_WholeSale    R_IndepReg
+year                          1.562213e-01  1.246209e-01  1.608799e-01  8.352198e-02  5.237123e-01
+Coal_AnnualMtCO2              2.703191e+01 -2.634195e+01  4.315222e+01 -1.132471e+01  2.231582e+01
+Coal_duration_year            1.563459e+00  3.875733e+00  3.322142e+00  4.154937e+00  1.499596e+00
+Coal_Share_Ret                5.553459e-01  7.787917e-01  1.069181e+00  5.182839e-01  5.636906e-01
+Coal_Share_EarlyRet           4.003132e-02  2.989516e-02  6.897423e-02  5.935857e-02  3.282325e-02
+Coal_Share_Tran               1.526325e-01  3.406209e-01  2.650103e-01  1.220128e-01  1.370689e-01
+Coal_Share_PhasedOut          6.656527e-01  1.143038e+00  1.258240e+00  5.989483e-01  6.312958e-01
+Coal_logCurrent_MW            2.769124e-01  3.553073e-01  2.536864e-01  2.731999e-01  1.250334e-01
+WDI_Manu_GDP_.                3.533762e-01 -2.841397e-01 -3.967407e-01 -8.473194e-01 -2.155568e-01
+WDI_CoalRents_.              -3.372214e-03  1.515404e-02  3.367749e-02 -1.897358e-02  2.583417e-02
+WDI_OilRents_.                8.392267e-02  8.551522e-02 -9.161221e-03 -1.416318e-01  1.111919e-01
+WDI_NGRents_.                -3.423550e-02  2.373531e-02 -5.349375e-02 -4.507908e-02 -5.226056e-02
+WDI_Coal_El_.                 1.116549e+00  5.875014e-01 -7.593191e-01 -1.199248e+00  1.770868e-01
+WDI_NG_El_.                  -7.091775e-01  1.629206e+00  6.684516e-01 -5.283548e-01 -1.550251e+00
+logGDPpc                      5.154358e-02  8.052870e-02  6.461742e-02  1.506737e-01  3.522736e-02
+BP_GasReserve_tM3             2.258786e-01  1.139196e-01  1.600686e-01  2.469110e-01  1.102310e-01
+BP_GasProduction_bM3          7.494824e+00  8.553950e+00  6.466983e+00  1.139258e+01  5.075341e+00
+BP_CoalProduction_mTon        2.446625e+01 -3.076043e+01  3.940841e+01 -2.432079e+01  2.098099e+01
+BP_CoalReserve_mTon           3.481470e+03  3.364592e+03  4.990893e+03  5.136884e+03  2.521056e+03
+BP_GasR2P_yr                  1.427419e+00  1.468623e+00  1.084268e+00 -1.780776e-01  1.444712e+00
+BP_CoalR2P_yr                 1.678652e+01  2.978045e+01  2.153974e+01  3.583959e+01  1.175118e+01
+HHI_LNG_Import               -4.893867e-03  1.804115e-03 -3.278881e-03 -5.942376e-03 -8.868538e-03
+Value_LNG_Import              8.489699e+04 -5.604320e+04  8.478241e+04 -7.455188e+04  7.925059e+04
+                                R_Choice R_Liberalization        R_Corp
+year                       -1.650599e-01     3.326108e-01  3.354405e-01
+Coal_AnnualMtCO2            5.198910e+00     1.466945e+01  2.884026e+01
+Coal_duration_year          5.026804e+00     6.600364e-01  2.414557e+00
+Coal_Share_Ret              2.656542e+00     3.174012e-01  6.901482e-01
+Coal_Share_EarlyRet         9.545222e-02     2.243513e-02  4.355055e-02
+Coal_Share_Tran             6.552912e-01     8.554129e-02  1.660507e-01
+Coal_Share_PhasedOut        3.430020e+00     3.775895e-01  7.704210e-01
+Coal_logCurrent_MW          3.077968e-01     8.923787e-02  2.309686e-01
+WDI_Manu_GDP_.             -4.387832e-01     2.124909e-03 -7.675903e-02
+WDI_CoalRents_.            -2.801204e-02    -3.264710e-03  3.447597e-02
+WDI_OilRents_.              1.929399e-02     1.334269e-03  9.966723e-02
+WDI_NGRents_.              -6.303231e-02    -8.018781e-03  5.479901e-02
+WDI_Coal_El_.              -1.559339e+00     8.801710e-01  7.895346e-01
+WDI_NG_El_.                 1.591912e+00    -1.254468e+00  1.975854e-01
+logGDPpc                    3.268079e-01     2.514875e-02  4.805724e-02
+BP_GasReserve_tM3          -2.069379e-01     8.030727e-02  2.411473e-01
+BP_GasProduction_bM3        8.220283e+00     3.465654e+00  7.111808e+00
+BP_CoalProduction_mTon     -1.124882e+01     1.222783e+01  2.666733e+01
+BP_CoalReserve_mTon         3.882057e+03     1.625001e+03  3.755658e+03
+BP_GasR2P_yr               -8.563509e-02     9.574520e-01  1.857160e+00
+BP_CoalR2P_yr              -1.666614e+01     8.988451e+00  1.749662e+01
+HHI_LNG_Import             -4.580614e-04     1.257673e-03 -3.310202e-03
+Value_LNG_Import           -8.021371e+04     4.355772e+04  7.508782e+04
+ [ reached getOption("max.print") -- omitted 20 rows ]
+package ‘lavaanPlot’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\jx920\AppData\Local\Temp\RtmpeOmBqE\downloaded_packages
+lavaan 0.6.16 ended normally after 21 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        16
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                51.439
+  Degrees of freedom                                 2
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.367    0.054    6.831    0.000
+    Col_lgCrrnt_MW         -0.496    0.048  -10.229    0.000
+    R_Choice                0.859    0.083   10.393    0.000
+    R_WholeSale            -0.232    0.071   -3.259    0.001
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.303    0.053    5.741    0.000
+    Col_lgCrrnt_MW         -0.491    0.048  -10.299    0.000
+    R_Choice                0.963    0.081   11.839    0.000
+    R_WholeSale            -0.233    0.070   -3.317    0.001
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.650    0.036   17.821    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.184    0.054   -3.414    0.001
+   .Col_Shr_PhsdOt   -0.223    0.053   -4.201    0.000
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.204    0.011   18.398    0.000
+   .Coal_Share_Ret    0.703    0.038   18.398    0.000
+   .Col_Shr_PhsdOt    0.680    0.037   18.398    0.000
+
+lavaan 0.6.16 ended normally after 21 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        16
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                51.439
+  Degrees of freedom                                 2
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.367    0.054    6.831    0.000
+    Col_lgCrrnt_MW         -0.496    0.048  -10.229    0.000
+    R_Choice                0.859    0.083   10.393    0.000
+    R_WholeSale            -0.232    0.071   -3.259    0.001
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.303    0.053    5.741    0.000
+    Col_lgCrrnt_MW         -0.491    0.048  -10.299    0.000
+    R_Choice                0.963    0.081   11.839    0.000
+    R_WholeSale            -0.233    0.070   -3.317    0.001
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.650    0.036   17.821    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.184    0.054   -3.414    0.001
+   .Col_Shr_PhsdOt   -0.223    0.053   -4.201    0.000
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.204    0.011   18.398    0.000
+   .Coal_Share_Ret    0.703    0.038   18.398    0.000
+   .Col_Shr_PhsdOt    0.680    0.037   18.398    0.000
+
+lavaan 0.6.16 ended normally after 21 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        16
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                51.439
+  Degrees of freedom                                 2
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.367    0.054    6.831    0.000
+    Col_lgCrrnt_MW         -0.496    0.048  -10.229    0.000
+    R_Choice                0.859    0.083   10.393    0.000
+    R_WholeSale            -0.232    0.071   -3.259    0.001
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.303    0.053    5.741    0.000
+    Col_lgCrrnt_MW         -0.491    0.048  -10.299    0.000
+    R_Choice                0.963    0.081   11.839    0.000
+    R_WholeSale            -0.233    0.070   -3.317    0.001
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.650    0.036   17.821    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.184    0.054   -3.414    0.001
+   .Col_Shr_PhsdOt   -0.223    0.053   -4.201    0.000
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.204    0.011   18.398    0.000
+   .Coal_Share_Ret    0.703    0.038   18.398    0.000
+   .Col_Shr_PhsdOt    0.680    0.037   18.398    0.000
+
+lavaan 0.6.16 ended normally after 21 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        16
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                51.439
+  Degrees of freedom                                 2
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.367    0.054    6.831    0.000
+    Col_lgCrrnt_MW         -0.496    0.048  -10.229    0.000
+    R_Choice                0.859    0.083   10.393    0.000
+    R_WholeSale            -0.232    0.071   -3.259    0.001
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.303    0.053    5.741    0.000
+    Col_lgCrrnt_MW         -0.491    0.048  -10.299    0.000
+    R_Choice                0.963    0.081   11.839    0.000
+    R_WholeSale            -0.233    0.070   -3.317    0.001
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.650    0.036   17.821    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.184    0.054   -3.414    0.001
+   .Col_Shr_PhsdOt   -0.223    0.053   -4.201    0.000
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.204    0.011   18.398    0.000
+   .Coal_Share_Ret    0.703    0.038   18.398    0.000
+   .Col_Shr_PhsdOt    0.680    0.037   18.398    0.000
+
+lavaan 0.6.16 ended normally after 21 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        16
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                51.439
+  Degrees of freedom                                 2
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.367    0.054    6.831    0.000
+    Col_lgCrrnt_MW         -0.496    0.048  -10.229    0.000
+    R_Choice                0.859    0.083   10.393    0.000
+    R_WholeSale            -0.232    0.071   -3.259    0.001
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.303    0.053    5.741    0.000
+    Col_lgCrrnt_MW         -0.491    0.048  -10.299    0.000
+    R_Choice                0.963    0.081   11.839    0.000
+    R_WholeSale            -0.233    0.070   -3.317    0.001
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.650    0.036   17.821    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.184    0.054   -3.414    0.001
+   .Col_Shr_PhsdOt   -0.223    0.053   -4.201    0.000
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.204    0.011   18.398    0.000
+   .Coal_Share_Ret    0.703    0.038   18.398    0.000
+   .Col_Shr_PhsdOt    0.680    0.037   18.398    0.000
+
+lavaan 0.6.16 ended normally after 24 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        18
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                61.748
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.353    0.052    6.773    0.000
+    Col_lgCrrnt_MW         -0.594    0.049  -12.041    0.000
+    R_Choice                0.939    0.081   11.548    0.000
+    R_WholeSale            -0.173    0.069   -2.509    0.012
+    Valu_LNG_Imprt          0.232    0.035    6.693    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.292    0.052    5.638    0.000
+    Col_lgCrrnt_MW         -0.570    0.049  -11.634    0.000
+    R_Choice                1.027    0.081   12.709    0.000
+    R_WholeSale            -0.185    0.069   -2.693    0.007
+    Valu_LNG_Imprt          0.188    0.034    5.444    0.000
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.615    0.035   17.800    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.249    0.052   -4.747    0.000
+   .Col_Shr_PhsdOt   -0.275    0.052   -5.279    0.000
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.204    0.011   18.398    0.000
+   .Coal_Share_Ret    0.660    0.036   18.398    0.000
+   .Col_Shr_PhsdOt    0.652    0.035   18.398    0.000
+
+lavaan 0.6.16 ended normally after 24 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        18
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                61.748
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.353    0.052    6.773    0.000
+    Col_lgCrrnt_MW         -0.594    0.049  -12.041    0.000
+    R_Choice                0.939    0.081   11.548    0.000
+    R_WholeSale            -0.173    0.069   -2.509    0.012
+    Valu_LNG_Imprt          0.232    0.035    6.693    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.292    0.052    5.638    0.000
+    Col_lgCrrnt_MW         -0.570    0.049  -11.634    0.000
+    R_Choice                1.027    0.081   12.709    0.000
+    R_WholeSale            -0.185    0.069   -2.693    0.007
+    Valu_LNG_Imprt          0.188    0.034    5.444    0.000
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.615    0.035   17.800    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.249    0.052   -4.747    0.000
+   .Col_Shr_PhsdOt   -0.275    0.052   -5.279    0.000
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.204    0.011   18.398    0.000
+   .Coal_Share_Ret    0.660    0.036   18.398    0.000
+   .Col_Shr_PhsdOt    0.652    0.035   18.398    0.000
+
+lavaan 0.6.16 ended normally after 77 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        19
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.571
+  Degrees of freedom                                 7
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          4.388    1.415    3.102    0.002
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.352    0.046    7.571    0.000
+    Col_lgCrrnt_MW         -0.593    0.049  -12.101    0.000
+    reform                  2.206    0.270    8.178    0.000
+    Valu_LNG_Imprt          0.233    0.034    6.822    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.292    0.046    6.319    0.000
+    Col_lgCrrnt_MW         -0.570    0.049  -11.694    0.000
+    reform                  2.412    0.286    8.443    0.000
+    Valu_LNG_Imprt          0.188    0.034    5.541    0.000
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.705    0.051   13.852    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.000    0.035    0.000    1.000
+   .Col_Shr_PhsdOt    0.000    0.036    0.000    1.000
+   .R_WholeSale       0.595    0.019   31.555    0.000
+   .R_Choice          0.375    0.019   20.162    0.000
+    reform            0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.220    0.013   16.397    0.000
+   .R_Choice         -0.173    0.117   -1.470    0.142
+   .Coal_Share_Ret    0.742    0.050   14.932    0.000
+   .Col_Shr_PhsdOt    0.750    0.054   13.896    0.000
+    reform            0.021    0.008    2.607    0.009
+
+lavaan 0.6.16 ended normally after 77 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        19
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.571
+  Degrees of freedom                                 7
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          4.388    1.415    3.102    0.002
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.352    0.046    7.571    0.000
+    Col_lgCrrnt_MW         -0.593    0.049  -12.101    0.000
+    reform                  2.206    0.270    8.178    0.000
+    Valu_LNG_Imprt          0.233    0.034    6.822    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.292    0.046    6.319    0.000
+    Col_lgCrrnt_MW         -0.570    0.049  -11.694    0.000
+    reform                  2.412    0.286    8.443    0.000
+    Valu_LNG_Imprt          0.188    0.034    5.541    0.000
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.705    0.051   13.852    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.000    0.035    0.000    1.000
+   .Col_Shr_PhsdOt    0.000    0.036    0.000    1.000
+   .R_WholeSale       0.595    0.019   31.555    0.000
+   .R_Choice          0.375    0.019   20.162    0.000
+    reform            0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.220    0.013   16.397    0.000
+   .R_Choice         -0.173    0.117   -1.470    0.142
+   .Coal_Share_Ret    0.742    0.050   14.932    0.000
+   .Col_Shr_PhsdOt    0.750    0.054   13.896    0.000
+    reform            0.021    0.008    2.607    0.009
+
+lavaan 0.6.16 ended normally after 72 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        24
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               333.128
+  Degrees of freedom                                 9
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          1.698    0.172    9.853    0.000
+  incumbent =~                                        
+    Coal_duratn_yr    1.000                           
+    Col_lgCrrnt_MW    0.518    0.051   10.183    0.000
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    incumbent              -0.049    0.036   -1.340    0.180
+    reform                  2.178    0.298    7.308    0.000
+    Valu_LNG_Imprt          0.077    0.035    2.206    0.027
+  Coal_Share_PhasedOut ~                                    
+    incumbent              -0.083    0.039   -2.155    0.031
+    reform                  2.336    0.309    7.553    0.000
+    Valu_LNG_Imprt          0.034    0.035    0.982    0.326
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+  reform ~~                                            
+    incumbent          0.146    0.018    8.247    0.000
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.715    0.050   14.321    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.000    0.038    0.000    1.000
+   .Col_Shr_PhsdOt    0.000    0.038    0.000    1.000
+   .R_WholeSale       0.595    0.019   31.555    0.000
+   .R_Choice          0.375    0.019   20.162    0.000
+   .Coal_duratn_yr    0.000    0.038    0.000    1.000
+   .Col_lgCrrnt_MW    0.000    0.038    0.000    1.000
+    reform            0.000                           
+    incumbent         0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.186    0.011   16.767    0.000
+   .R_Choice          0.077    0.014    5.566    0.000
+   .Coal_duratn_yr   -0.424    0.121   -3.502    0.000
+   .Col_lgCrrnt_MW    0.617    0.046   13.344    0.000
+   .Coal_Share_Ret    0.764    0.051   15.118    0.000
+   .Col_Shr_PhsdOt    0.748    0.051   14.545    0.000
+    reform            0.055    0.009    5.764    0.000
+    incumbent         1.422    0.129   11.062    0.000
+
+lavaan 0.6.16 ended normally after 77 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        19
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.571
+  Degrees of freedom                                 7
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          4.388    1.415    3.102    0.002
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.352    0.046    7.571    0.000
+    Col_lgCrrnt_MW         -0.593    0.049  -12.101    0.000
+    reform                  2.206    0.270    8.178    0.000
+    Valu_LNG_Imprt          0.233    0.034    6.822    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.292    0.046    6.319    0.000
+    Col_lgCrrnt_MW         -0.570    0.049  -11.694    0.000
+    reform                  2.412    0.286    8.443    0.000
+    Valu_LNG_Imprt          0.188    0.034    5.541    0.000
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.705    0.051   13.852    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.000    0.035    0.000    1.000
+   .Col_Shr_PhsdOt    0.000    0.036    0.000    1.000
+   .R_WholeSale       0.595    0.019   31.555    0.000
+   .R_Choice          0.375    0.019   20.162    0.000
+    reform            0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.220    0.013   16.397    0.000
+   .R_Choice         -0.173    0.117   -1.470    0.142
+   .Coal_Share_Ret    0.742    0.050   14.932    0.000
+   .Col_Shr_PhsdOt    0.750    0.054   13.896    0.000
+    reform            0.021    0.008    2.607    0.009
+
+lavaan 0.6.16 ended normally after 83 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        27
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               297.418
+  Degrees of freedom                                 8
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          3.929    1.097    3.582    0.000
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.346    0.046    7.447    0.000
+    Col_lgCrrnt_MW         -0.593    0.049  -12.084    0.000
+    reform                  2.228    0.269    8.266    0.000
+    Valu_LNG_Imprt          0.235    0.034    6.875    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.285    0.046    6.182    0.000
+    Col_lgCrrnt_MW         -0.569    0.049  -11.676    0.000
+    reform                  2.437    0.285    8.537    0.000
+    Valu_LNG_Imprt          0.190    0.034    5.601    0.000
+  Coal_Share_Tran ~                                         
+    Coal_duratn_yr          0.285    0.052    5.464    0.000
+    Col_lgCrrnt_MW         -0.352    0.055   -6.404    0.000
+    reform                  1.547    0.235    6.586    0.000
+    Valu_LNG_Imprt          0.139    0.038    3.622    0.000
+
+Covariances:
+                          Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                          
+   .Col_Shr_PhsdOt           0.691    0.050   13.933    0.000
+   .Coal_Share_Trn           0.403    0.039   10.325    0.000
+ .Coal_Share_PhasedOut ~~                                    
+   .Coal_Share_Trn           0.546    0.042   12.881    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.000    0.035   -0.000    1.000
+   .Col_Shr_PhsdOt   -0.000    0.036   -0.000    1.000
+   .Coal_Share_Trn   -0.000    0.037   -0.000    1.000
+   .R_WholeSale       0.595    0.019   31.555    0.000
+   .R_Choice          0.375    0.019   20.162    0.000
+    reform            0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.217    0.013   16.524    0.000
+   .R_Choice         -0.130    0.090   -1.452    0.146
+   .Coal_Share_Ret    0.730    0.049   15.026    0.000
+   .Col_Shr_PhsdOt    0.735    0.053   13.984    0.000
+   .Coal_Share_Trn    0.864    0.048   17.921    0.000
+    reform            0.024    0.008    2.919    0.004
+
+lavaan 0.6.16 ended normally after 83 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        27
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               297.418
+  Degrees of freedom                                 8
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          3.929    1.097    3.582    0.000
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.346    0.046    7.447    0.000
+    Col_lgCrrnt_MW         -0.593    0.049  -12.084    0.000
+    reform                  2.228    0.269    8.266    0.000
+    Valu_LNG_Imprt          0.235    0.034    6.875    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.285    0.046    6.182    0.000
+    Col_lgCrrnt_MW         -0.569    0.049  -11.676    0.000
+    reform                  2.437    0.285    8.537    0.000
+    Valu_LNG_Imprt          0.190    0.034    5.601    0.000
+  Coal_Share_Tran ~                                         
+    Coal_duratn_yr          0.285    0.052    5.464    0.000
+    Col_lgCrrnt_MW         -0.352    0.055   -6.404    0.000
+    reform                  1.547    0.235    6.586    0.000
+    Valu_LNG_Imprt          0.139    0.038    3.622    0.000
+
+Covariances:
+                          Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                          
+   .Col_Shr_PhsdOt           0.691    0.050   13.933    0.000
+   .Coal_Share_Trn           0.403    0.039   10.325    0.000
+ .Coal_Share_PhasedOut ~~                                    
+   .Coal_Share_Trn           0.546    0.042   12.881    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.000    0.035   -0.000    1.000
+   .Col_Shr_PhsdOt   -0.000    0.036   -0.000    1.000
+   .Coal_Share_Trn   -0.000    0.037   -0.000    1.000
+   .R_WholeSale       0.595    0.019   31.555    0.000
+   .R_Choice          0.375    0.019   20.162    0.000
+    reform            0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.217    0.013   16.524    0.000
+   .R_Choice         -0.130    0.090   -1.452    0.146
+   .Coal_Share_Ret    0.730    0.049   15.026    0.000
+   .Col_Shr_PhsdOt    0.735    0.053   13.984    0.000
+   .Coal_Share_Trn    0.864    0.048   17.921    0.000
+    reform            0.024    0.008    2.919    0.004
+
+lavaan 0.6.16 ended normally after 69 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        19
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.571
+  Degrees of freedom                                 7
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          4.388    1.415    3.102    0.002
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.352    0.046    7.571    0.000
+    Col_lgCrrnt_MW         -0.593    0.049  -12.101    0.000
+    reform                  2.206    0.270    8.178    0.000
+    Valu_LNG_Imprt          0.233    0.034    6.822    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr         -0.042    0.017   -2.529    0.011
+    Col_lgCrrnt_MW         -0.006    0.019   -0.335    0.738
+    reform                  0.317    0.065    4.900    0.000
+    Valu_LNG_Imprt         -0.033    0.012   -2.720    0.007
+    Coal_Share_Ret          0.950    0.014   69.343    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.000    0.035    0.000    1.000
+   .Col_Shr_PhsdOt   -0.000    0.011   -0.000    1.000
+   .R_WholeSale       0.595    0.019   31.555    0.000
+   .R_Choice          0.375    0.019   20.162    0.000
+    reform            0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.220    0.013   16.397    0.000
+   .R_Choice         -0.173    0.117   -1.470    0.142
+   .Coal_Share_Ret    0.742    0.050   14.932    0.000
+   .Col_Shr_PhsdOt    0.080    0.004   18.398    0.000
+    reform            0.021    0.008    2.607    0.009
+
+lavaan 0.6.16 ended normally after 69 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        19
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.571
+  Degrees of freedom                                 7
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          4.388    1.415    3.102    0.002
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.352    0.046    7.571    0.000
+    Col_lgCrrnt_MW         -0.593    0.049  -12.101    0.000
+    reform                  2.206    0.270    8.178    0.000
+    Valu_LNG_Imprt          0.233    0.034    6.822    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr         -0.042    0.017   -2.529    0.011
+    Col_lgCrrnt_MW         -0.006    0.019   -0.335    0.738
+    reform                  0.317    0.065    4.900    0.000
+    Valu_LNG_Imprt         -0.033    0.012   -2.720    0.007
+    Coal_Share_Ret          0.950    0.014   69.343    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.000    0.035    0.000    1.000
+   .Col_Shr_PhsdOt   -0.000    0.011   -0.000    1.000
+   .R_WholeSale       0.595    0.019   31.555    0.000
+   .R_Choice          0.375    0.019   20.162    0.000
+    reform            0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.220    0.013   16.397    0.000
+   .R_Choice         -0.173    0.117   -1.470    0.142
+   .Coal_Share_Ret    0.742    0.050   14.932    0.000
+   .Col_Shr_PhsdOt    0.080    0.004   18.398    0.000
+    reform            0.021    0.008    2.607    0.009
+
+lavaan 0.6.16 ended normally after 55 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        20
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.571
+  Degrees of freedom                                 6
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          1.487       NA                  
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.352       NA                  
+    Col_lgCrrnt_MW         -0.593       NA                  
+    reform                  1.039       NA                  
+    Valu_LNG_Imprt          0.233       NA                  
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr         -0.039       NA                  
+    Col_lgCrrnt_MW         -0.011       NA                  
+    reform                  0.158       NA                  
+    Valu_LNG_Imprt         -0.031       NA                  
+    Coal_Share_Ret          0.941       NA                  
+  R_WholeSale ~                                             
+    R_Choice               -0.444       NA                  
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.000       NA                  
+   .Col_Shr_PhsdOt    0.000       NA                  
+   .R_WholeSale       0.762       NA                  
+   .R_Choice          0.375       NA                  
+    reform            0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.237       NA                  
+   .R_Choice         -0.059       NA                  
+   .Coal_Share_Ret    0.702       NA                  
+   .Col_Shr_PhsdOt    0.080       NA                  
+    reform            0.132       NA                  
+
+lavaan 0.6.16 ended normally after 55 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        20
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.571
+  Degrees of freedom                                 6
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  reform =~                                           
+    R_WholeSale       1.000                           
+    R_Choice          1.487       NA                  
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.352       NA                  
+    Col_lgCrrnt_MW         -0.593       NA                  
+    reform                  1.039       NA                  
+    Valu_LNG_Imprt          0.233       NA                  
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr         -0.039       NA                  
+    Col_lgCrrnt_MW         -0.011       NA                  
+    reform                  0.158       NA                  
+    Valu_LNG_Imprt         -0.031       NA                  
+    Coal_Share_Ret          0.941       NA                  
+  R_WholeSale ~                                             
+    R_Choice               -0.444       NA                  
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.000       NA                  
+   .Col_Shr_PhsdOt    0.000       NA                  
+   .R_WholeSale       0.762       NA                  
+   .R_Choice          0.375       NA                  
+    reform            0.000                           
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .R_WholeSale       0.237       NA                  
+   .R_Choice         -0.059       NA                  
+   .Coal_Share_Ret    0.702       NA                  
+   .Col_Shr_PhsdOt    0.080       NA                  
+    reform            0.132       NA                  
+
+lavaan 0.6.16 ended normally after 2 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        18
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                61.748
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.353    0.052    6.773    0.000
+    Col_lgCrrnt_MW         -0.594    0.049  -12.041    0.000
+    R_WholeSale            -0.173    0.069   -2.509    0.012
+    R_Choice                0.939    0.081   11.548    0.000
+    Valu_LNG_Imprt          0.232    0.035    6.693    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr         -0.037    0.019   -1.994    0.046
+    Col_lgCrrnt_MW         -0.017    0.019   -0.892    0.372
+    R_WholeSale            -0.023    0.024   -0.973    0.330
+    R_Choice                0.152    0.031    4.949    0.000
+    Valu_LNG_Imprt         -0.029    0.012   -2.328    0.020
+    Coal_Share_Ret          0.932    0.013   70.340    0.000
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.249    0.052   -4.747    0.000
+   .Col_Shr_PhsdOt   -0.043    0.018   -2.343    0.019
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.660    0.036   18.398    0.000
+   .Col_Shr_PhsdOt    0.078    0.004   18.398    0.000
+   .R_WholeSale       0.204    0.011   18.398    0.000
+
+lavaan 0.6.16 ended normally after 2 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        18
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                61.748
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.353    0.052    6.773    0.000
+    Col_lgCrrnt_MW         -0.594    0.049  -12.041    0.000
+    R_WholeSale            -0.173    0.069   -2.509    0.012
+    R_Choice                0.939    0.081   11.548    0.000
+    Valu_LNG_Imprt          0.232    0.035    6.693    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr         -0.037    0.019   -1.994    0.046
+    Col_lgCrrnt_MW         -0.017    0.019   -0.892    0.372
+    R_WholeSale            -0.023    0.024   -0.973    0.330
+    R_Choice                0.152    0.031    4.949    0.000
+    Valu_LNG_Imprt         -0.029    0.012   -2.328    0.020
+    Coal_Share_Ret          0.932    0.013   70.340    0.000
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.249    0.052   -4.747    0.000
+   .Col_Shr_PhsdOt   -0.043    0.018   -2.343    0.019
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.660    0.036   18.398    0.000
+   .Col_Shr_PhsdOt    0.078    0.004   18.398    0.000
+   .R_WholeSale       0.204    0.011   18.398    0.000
+
+lavaan 0.6.16 ended normally after 2 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        18
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                                61.748
+  Degrees of freedom                                 3
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.353    0.052    6.773    0.000
+    Col_lgCrrnt_MW         -0.594    0.049  -12.041    0.000
+    R_WholeSale            -0.173    0.069   -2.509    0.012
+    R_Choice                0.939    0.081   11.548    0.000
+    Valu_LNG_Imprt          0.232    0.035    6.693    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr         -0.037    0.019   -1.994    0.046
+    Col_lgCrrnt_MW         -0.017    0.019   -0.892    0.372
+    R_WholeSale            -0.023    0.024   -0.973    0.330
+    R_Choice                0.152    0.031    4.949    0.000
+    Valu_LNG_Imprt         -0.029    0.012   -2.328    0.020
+    Coal_Share_Ret          0.932    0.013   70.340    0.000
+  R_WholeSale ~                                             
+    R_Choice                0.396    0.036   11.031    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.249    0.052   -4.747    0.000
+   .Col_Shr_PhsdOt   -0.043    0.018   -2.343    0.019
+   .R_WholeSale       0.447    0.022   20.335    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.660    0.036   18.398    0.000
+   .Col_Shr_PhsdOt    0.078    0.004   18.398    0.000
+   .R_WholeSale       0.204    0.011   18.398    0.000
+
+lavaan 0.6.16 ended normally after 16 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        20
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.540
+  Degrees of freedom                                 6
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.353    0.046    7.598    0.000
+    Col_lgCrrnt_MW         -0.594    0.049  -12.104    0.000
+    R_WholeSale            -0.173    0.069   -2.509    0.012
+    R_Choice                0.939    0.070   13.407    0.000
+    Valu_LNG_Imprt          0.232    0.034    6.810    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr         -0.037    0.017   -2.219    0.026
+    Col_lgCrrnt_MW         -0.017    0.019   -0.896    0.370
+    R_WholeSale            -0.023    0.024   -0.973    0.330
+    R_Choice                0.152    0.027    5.588    0.000
+    Valu_LNG_Imprt         -0.029    0.012   -2.365    0.018
+    Coal_Share_Ret          0.932    0.013   70.340    0.000
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  R_WholeSale ~~                                      
+    R_Choice          0.093    0.010    9.461    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.249    0.050   -4.969    0.000
+   .Col_Shr_PhsdOt   -0.043    0.018   -2.449    0.014
+    R_WholeSale       0.595    0.019   31.555    0.000
+    R_Choice          0.375    0.019   20.162    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.660    0.036   18.398    0.000
+   .Col_Shr_PhsdOt    0.078    0.004   18.398    0.000
+    R_WholeSale       0.241    0.013   18.398    0.000
+    R_Choice          0.234    0.013   18.398    0.000
+
+lavaan 0.6.16 ended normally after 16 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        20
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.540
+  Degrees of freedom                                 6
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.353    0.046    7.598    0.000
+    Col_lgCrrnt_MW         -0.594    0.049  -12.104    0.000
+    R_WholeSale            -0.173    0.069   -2.509    0.012
+    R_Choice                0.939    0.070   13.407    0.000
+    Valu_LNG_Imprt          0.232    0.034    6.810    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr         -0.037    0.017   -2.219    0.026
+    Col_lgCrrnt_MW         -0.017    0.019   -0.896    0.370
+    R_WholeSale            -0.023    0.024   -0.973    0.330
+    R_Choice                0.152    0.027    5.588    0.000
+    Valu_LNG_Imprt         -0.029    0.012   -2.365    0.018
+    Coal_Share_Ret          0.932    0.013   70.340    0.000
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+  R_WholeSale ~~                                      
+    R_Choice          0.093    0.010    9.461    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.249    0.050   -4.969    0.000
+   .Col_Shr_PhsdOt   -0.043    0.018   -2.449    0.014
+    R_WholeSale       0.595    0.019   31.555    0.000
+    R_Choice          0.375    0.019   20.162    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.660    0.036   18.398    0.000
+   .Col_Shr_PhsdOt    0.078    0.004   18.398    0.000
+    R_WholeSale       0.241    0.013   18.398    0.000
+    R_Choice          0.234    0.013   18.398    0.000
+
+lavaan 0.6.16 ended normally after 28 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        20
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.540
+  Degrees of freedom                                 6
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.353    0.046    7.598    0.000
+    Col_lgCrrnt_MW         -0.594    0.049  -12.104    0.000
+    R_WholeSale            -0.173    0.069   -2.509    0.012
+    R_Choice                0.939    0.070   13.406    0.000
+    Valu_LNG_Imprt          0.232    0.034    6.810    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.292    0.046    6.324    0.000
+    Col_lgCrrnt_MW         -0.570    0.049  -11.695    0.000
+    R_WholeSale            -0.185    0.069   -2.693    0.007
+    R_Choice                1.027    0.070   14.755    0.000
+    Valu_LNG_Imprt          0.188    0.034    5.539    0.000
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.615    0.035   17.800    0.000
+  R_WholeSale ~~                                       
+    R_Choice           0.093    0.010    9.461    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.249    0.050   -4.969    0.000
+   .Col_Shr_PhsdOt   -0.275    0.050   -5.525    0.000
+    R_WholeSale       0.595    0.019   31.555    0.000
+    R_Choice          0.375    0.019   20.162    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.660    0.036   18.398    0.000
+   .Col_Shr_PhsdOt    0.652    0.035   18.398    0.000
+    R_WholeSale       0.241    0.013   18.398    0.000
+    R_Choice          0.234    0.013   18.398    0.000
+
+lavaan 0.6.16 ended normally after 28 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        20
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               294.540
+  Degrees of freedom                                 6
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.353    0.046    7.598    0.000
+    Col_lgCrrnt_MW         -0.594    0.049  -12.104    0.000
+    R_WholeSale            -0.173    0.069   -2.509    0.012
+    R_Choice                0.939    0.070   13.406    0.000
+    Valu_LNG_Imprt          0.232    0.034    6.810    0.000
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.292    0.046    6.324    0.000
+    Col_lgCrrnt_MW         -0.570    0.049  -11.695    0.000
+    R_WholeSale            -0.185    0.069   -2.693    0.007
+    R_Choice                1.027    0.070   14.755    0.000
+    Valu_LNG_Imprt          0.188    0.034    5.539    0.000
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.615    0.035   17.800    0.000
+  R_WholeSale ~~                                       
+    R_Choice           0.093    0.010    9.461    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.249    0.050   -4.969    0.000
+   .Col_Shr_PhsdOt   -0.275    0.050   -5.525    0.000
+    R_WholeSale       0.595    0.019   31.555    0.000
+    R_Choice          0.375    0.019   20.162    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.660    0.036   18.398    0.000
+   .Col_Shr_PhsdOt    0.652    0.035   18.398    0.000
+    R_WholeSale       0.241    0.013   18.398    0.000
+    R_Choice          0.234    0.013   18.398    0.000
+
+lavaan 0.6.16 ended normally after 33 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        22
+
+  Number of observations                           677
+
+Model Test User Model:
+                                                      
+  Test statistic                               295.326
+  Degrees of freedom                                 8
+  P-value (Chi-square)                           0.000
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                         Estimate  Std.Err  z-value  P(>|z|)
+  Coal_Share_Ret ~                                          
+    Coal_duratn_yr          0.352    0.046    7.641    0.000
+    Col_lgCrrnt_MW         -0.600    0.049  -12.323    0.000
+    R_WholeSale            -0.181    0.069   -2.640    0.008
+    R_Choice                0.944    0.070   13.573    0.000
+    Valu_LNG_Imprt          0.215    0.034    6.295    0.000
+    HHI_LNG_Import         -0.104    0.032   -3.271    0.001
+  Coal_Share_PhasedOut ~                                    
+    Coal_duratn_yr          0.291    0.046    6.345    0.000
+    Col_lgCrrnt_MW         -0.575    0.049  -11.862    0.000
+    R_WholeSale            -0.191    0.068   -2.801    0.005
+    R_Choice                1.031    0.069   14.887    0.000
+    Valu_LNG_Imprt          0.174    0.034    5.095    0.000
+    HHI_LNG_Import         -0.086    0.032   -2.740    0.006
+
+Covariances:
+                    Estimate  Std.Err  z-value  P(>|z|)
+ .Coal_Share_Ret ~~                                    
+   .Col_Shr_PhsdOt     0.607    0.034   17.793    0.000
+  R_WholeSale ~~                                       
+    R_Choice           0.093    0.010    9.461    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret   -0.246    0.050   -4.949    0.000
+   .Col_Shr_PhsdOt   -0.273    0.050   -5.506    0.000
+    R_WholeSale       0.595    0.019   31.555    0.000
+    R_Choice          0.375    0.019   20.162    0.000
+
+Variances:
+                   Estimate  Std.Err  z-value  P(>|z|)
+   .Coal_Share_Ret    0.650    0.035   18.398    0.000
+   .Col_Shr_PhsdOt    0.645    0.035   18.398    0.000
+    R_WholeSale       0.241    0.013   18.398    0.000
+    R_Choice          0.234    0.013   18.398    0.000
+

@@ -1,0 +1,90 @@
+── Data Summary ────────────────────────
+                           Values            
+Name                       full_data_truncate
+Number of rows             2786              
+Number of columns          73                
+_______________________                      
+Column type frequency:                       
+  character                1                 
+  numeric                  72                
+________________________                     
+Group variables            None              
+
+── Variable type: character ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate min max empty n_unique whitespace
+1 Country.Code          0             1   3   3     0      121          0
+
+── Variable type: numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   skim_variable               n_missing complete_rate          mean      sd       p0      p25     p50     p75    p100 hist 
+ 1 year                                0         1         2010.     7.76e+0  2.00e+3  2.00e+3 2.01e+3 2.02e+3 2.02e+3 ▅▆▇▆▇
+ 2 Coal_AnnualMtCO2                    0         1           76.6    3.58e+2  0        0       4.5 e+0 2.56e+1 4.97e+3 ▇▁▁▁▁
+ 3 Coal_duration_year                  0         1           27.3    2.51e+1  0        0       2.8 e+1 4.9 e+1 9.5 e+1 ▇▃▅▂▁
+ 4 Coal_Share_Ret                      0         1            2.82   1.06e+1  0        0       0       0       1   e+2 ▇▁▁▁▁
+ 5 Coal_Share_EarlyRet                 0         1            0.360  3.37e+0  0        0       0       0       1   e+2 ▇▁▁▁▁
+ 6 Coal_Share_Tran                     0         1            1.22   5.36e+0  0        0       0       0       5   e+1 ▇▁▁▁▁
+ 7 Coal_Share_PhasedOut                0         1            3.81   1.35e+1  0        0       0       0       1   e+2 ▇▁▁▁▁
+ 8 Coal_logCurrent_MW                  0         1            5.25   4.11e+0  0        0       6.68e+0 8.50e+0 1.39e+1 ▇▂▆▆▁
+ 9 Gas_Current_MW                      0         1        11110.     4.07e+4  0        3.6 e+2 2.31e+3 8.30e+3 5.46e+5 ▇▁▁▁▁
+10 Gas_duration_year                   0         1           27.6    2.08e+1  0        1   e+1 2.7 e+1 4.1 e+1 9.8 e+1 ▇▇▅▁▁
+11 Gas_logCurrent_MW                   0         1            6.98   3.07e+0  0        5.89e+0 7.75e+0 9.02e+0 1.32e+1 ▂▁▆▇▁
+12 Coal_Gen_Decline_Perc               0         1            7.24   1.88e+1  0        0       0       0       9.98e+1 ▇▁▁▁▁
+13 Gas_Gen_Decline_Perc                0         1            4.01   1.31e+1  0        0       0       0       9.08e+1 ▇▁▁▁▁
+14 Share_VRE_Gen                       0         1            0.0276 6.49e-2  0        0       9.25e-4 2.11e-2 6.09e-1 ▇▁▁▁▁
+15 GDPpc_2015.                       120         0.957    16390.     1.83e+4  3.18e+2  3.30e+3 7.78e+3 2.57e+4 9.88e+4 ▇▂▁▁▁
+16 Population                         61         0.978 59493960.     1.80e+8  3.85e+5  5.03e+6 1.18e+7 4.57e+7 1.41e+9 ▇▁▁▁▁
+17 WDI_Manu_GDP_.                    289         0.896       14.8    6.21e+0  3.97e-1  1.07e+1 1.44e+1 1.80e+1 4.99e+1 ▃▇▂▁▁
+18 WDI_CoalRents_.                   130         0.953        0.223  9.61e-1  0        0       3.42e-4 6.93e-2 2.59e+1 ▇▁▁▁▁
+19 WDI_OilRents_.                    134         0.952        4.82   1.04e+1  0        1.12e-2 2.92e-1 3.17e+0 6.52e+1 ▇▁▁▁▁
+20 WDI_NGRents_.                     123         0.956        0.939  2.85e+0  0        1.65e-4 5.67e-2 7.03e-1 5.50e+1 ▇▁▁▁▁
+21 WDI_NG_El_.                        81         0.971       31.2    3.15e+1  0        4.15e+0 1.97e+1 4.95e+1 1   e+2 ▇▃▂▁▂
+22 WDI_Coal_El_.                      81         0.971       20.9    2.61e+1  0        0       9.18e+0 3.45e+1 1   e+2 ▇▂▁▁▁
+23 logGDPpc                          169         0.939        9.74   9.44e-1  6.88e+0  9.12e+0 9.77e+0 1.05e+1 1.20e+1 ▁▃▇▇▂
+24 BP_GasReserve_tM3                 954         0.658        1.10   4.27e+0  0        0       0       4.59e-1 3.79e+1 ▇▁▁▁▁
+25 BP_GasProduction_bM3              918         0.670       34.0    1.05e+2  0        0       0       2.67e+1 9.34e+2 ▇▁▁▁▁
+26 BP_CoalProduction_mTon            803         0.712       87.7    3.64e+2  0        0       0       2.98e+1 4.13e+3 ▇▁▁▁▁
+27 BP_CoalReserve_mTon               334         0.880     8443.     3.23e+4  0        0       1.5 e+1 8.72e+2 2.52e+5 ▇▁▁▁▁
+28 BP_CoalR2P_yr                     978         0.649      116.     4.52e+2  0        0       0       8.67e+1 1.24e+4 ▇▁▁▁▁
+29 LogBP_GasR2P_yr                   137         0.951        0.920  1.55e+0  0        0       0       2.18e+0 6.93e+0 ▇▁▂▁▁
+30 HHI_Gas_Import                    250         0.910        0.709  3.19e-1  0        4.58e-1 8.35e-1 1.00e+0 1   e+0 ▁▂▂▂▇
+31 contiguity_Gas_Import             250         0.910        0.341  4.28e-1  0        0       2.89e-2 9.05e-1 1   e+0 ▇▁▁▁▃
+32 agree_Gas_Import                  250         0.910        0.736  3.96e-1  0        4.74e-1 1.00e+0 1   e+0 1   e+0 ▂▁▁▁▇
+33 sanction_Gas_Import               250         0.910        0.0581 2.18e-1  0        0       0       0       1   e+0 ▇▁▁▁▁
+34 common_language_Gas_Import        250         0.910        0.594  4.47e-1  0        1.52e-2 9.05e-1 1   e+0 1   e+0 ▅▁▁▁▇
+35 colony_Gas_Import                 250         0.910        0.121  3.00e-1  0        0       0       3.23e-7 1   e+0 ▇▁▁▁▁
+36 HHI_Gas_Export                    250         0.910        0.563  3.97e-1  0        1.68e-1 5.77e-1 9.97e-1 1   e+0 ▅▂▃▂▇
+37 contiguity_Gas_Export             250         0.910        0.368  4.50e-1  0        0       3.56e-3 9.88e-1 1   e+0 ▇▁▁▁▅
+38 agree_Gas_Export                  250         0.910        0.663  4.52e-1  0        0       1.00e+0 1   e+0 1   e+0 ▃▁▁▁▇
+39 sanction_Gas_Export               250         0.910        0.0299 1.57e-1  0        0       0       0       1   e+0 ▇▁▁▁▁
+40 common_language_Gas_Export        250         0.910        0.505  4.51e-1  0        0       5.22e-1 1   e+0 1   e+0 ▇▁▁▁▇
+41 colony_Gas_Export                 250         0.910        0.0384 1.69e-1  0        0       0       0       1   e+0 ▇▁▁▁▁
+42 NetValue_Gas_Import               250         0.910    15732.     7.51e+6 -6.86e+7 -6.47e+4 1.98e+4 6.16e+5 7.16e+7 ▁▁▇▁▁
+43 NetQuantity_Gas_Import            250         0.910    67853.     2.52e+7 -3.61e+8 -1.93e+5 3.62e+4 2.57e+6 3.62e+8 ▁▁▇▁▁
+44 HHI_Coal_Import                   128         0.954        0.577  2.78e-1  0        3.34e-1 5.22e-1 8.60e-1 1   e+0 ▂▇▆▃▇
+45 contiguity_Coal_Import            128         0.954        0.275  3.90e-1  0        0       1.51e-2 5.82e-1 1   e+0 ▇▁▁▁▂
+46 agree_Coal_Import                 128         0.954        0.696  3.61e-1  0        4.11e-1 8.88e-1 1.00e+0 1   e+0 ▂▁▁▂▇
+47 sanction_Coal_Import              128         0.954        0.0386 1.37e-1  0        0       0       1.42e-5 1   e+0 ▇▁▁▁▁
+48 common_language_Coal_Import       128         0.954        0.593  4.20e-1  0        8.43e-2 7.86e-1 9.99e-1 1   e+0 ▅▁▁▁▇
+49 colony_Coal_Import                128         0.954        0.109  2.76e-1  0        0       0       1.85e-3 1   e+0 ▇▁▁▁▁
+50 HHI_Coal_Export                   128         0.954        0.509  3.63e-1  0        1.94e-1 4.98e-1 9.07e-1 1   e+0 ▇▅▅▃▇
+51 contiguity_Coal_Export            128         0.954        0.353  4.16e-1  0        0       6.98e-2 8.39e-1 1   e+0 ▇▁▁▁▃
+52 agree_Coal_Export                 128         0.954        0.706  4.20e-1  0        2.60e-1 9.98e-1 1   e+0 1   e+0 ▃▁▁▁▇
+53 sanction_Coal_Export              128         0.954        0.0236 1.18e-1  0        0       0       0       1   e+0 ▇▁▁▁▁
+54 common_language_Coal_Export       128         0.954        0.484  4.28e-1  0        1.34e-4 4.47e-1 9.85e-1 1   e+0 ▇▂▂▂▇
+55 colony_Coal_Export                128         0.954        0.0510 1.91e-1  0        0       0       0       1   e+0 ▇▁▁▁▁
+56 NetValue_Coal_Import              128         0.954    -8583.     4.63e+6 -5.26e+7  1.07e+2 2.20e+4 2.48e+5 2.83e+7 ▁▁▁▇▁
+57 NetQuantity_Coal_Import           128         0.954  -157212.     5.39e+7 -5.22e+8  8.55e+2 3.50e+5 3.86e+6 3.15e+8 ▁▁▁▇▁
+58 R_IndepProducer                    75         0.973        0.704  4.57e-1  0        0       1   e+0 1   e+0 1   e+0 ▃▁▁▁▇
+59 R_Private                          75         0.973        0.526  4.99e-1  0        0       1   e+0 1   e+0 1   e+0 ▇▁▁▁▇
+60 R_Unbundle                         75         0.973        0.622  4.85e-1  0        0       1   e+0 1   e+0 1   e+0 ▅▁▁▁▇
+61 R_WholeSale                        75         0.973        0.474  4.99e-1  0        0       0       1   e+0 1   e+0 ▇▁▁▁▇
+62 R_IndepReg                         75         0.973        0.721  4.49e-1  0        0       1   e+0 1   e+0 1   e+0 ▃▁▁▁▇
+63 R_Choice                           75         0.973        0.307  4.61e-1  0        0       0       1   e+0 1   e+0 ▇▁▁▁▃
+64 R_Liberalization                   75         0.973        0.799  4.01e-1  0        1   e+0 1   e+0 1   e+0 1   e+0 ▂▁▁▁▇
+65 R_Corp                             75         0.973        0.760  4.27e-1  0        1   e+0 1   e+0 1   e+0 1   e+0 ▂▁▁▁▇
+66 StateCapacity                     844         0.697        0.931  8.63e-1 -1.44e+0  2.87e-1 7.79e-1 1.59e+0 2.96e+0 ▁▅▇▆▂
+67 num_supply_policy                   0         1            3.09   3.69e+0  0        0       2   e+0 5   e+0 2.2 e+1 ▇▂▁▁▁
+68 binary_airqual                      0         1            0.340  4.74e-1  0        0       0       1   e+0 1   e+0 ▇▁▁▁▅
+69 ghg_ambition_n                      0         1            0.368  4.82e-1  0        0       0       1   e+0 1   e+0 ▇▁▁▁▅
+70 cw_2030                             0         1            0.327  4.69e-1  0        0       0       1   e+0 1   e+0 ▇▁▁▁▃
+71 annex_one                           0         1            0.350  4.77e-1  0        0       0       1   e+0 1   e+0 ▇▁▁▁▅
+72 annex_two                           0         1            0.207  4.06e-1  0        0       0       0       1   e+0 ▇▁▁▁▂

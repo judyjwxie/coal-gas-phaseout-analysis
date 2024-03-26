@@ -1,0 +1,81 @@
+[1] "Coal_Share_Ret"
+
+Call:
+lm(formula = formula_str, data = coal_model_small)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-22.649  -5.542  -1.729   2.959  78.466 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)           1.8019     0.3777   4.771 1.97e-06 ***
+Coal_duration_year    4.7449     0.3591  13.215  < 2e-16 ***
+Coal_logCurrent_MW   -6.1367     0.3427 -17.907  < 2e-16 ***
+Value_LNG_Import      0.6524     0.2565   2.543  0.01105 *  
+R_WholeSale          -1.6899     0.5650  -2.991  0.00282 ** 
+R_Choice              8.5437     0.5976  14.296  < 2e-16 ***
+sanction_LNG_Import   0.3833     0.2461   1.557  0.11953    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 10.74 on 1945 degrees of freedom
+Multiple R-squared:  0.2579,	Adjusted R-squared:  0.2556 
+F-statistic: 112.7 on 6 and 1945 DF,  p-value: < 2.2e-16
+
+ Coal_duration_year  Coal_logCurrent_MW    Value_LNG_Import         R_WholeSale            R_Choice sanction_LNG_Import 
+           2.180652            1.986375            1.112809            1.347848            1.415925            1.024574 
+[1] "Coal_Share_Tran"
+
+Call:
+lm(formula = formula_str, data = coal_model_small)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-7.646 -2.441 -0.738  0.674 45.489 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)           0.4067     0.2068   1.967   0.0494 *  
+Coal_duration_year    1.6372     0.1966   8.327   <2e-16 ***
+Coal_logCurrent_MW   -1.7251     0.1877  -9.193   <2e-16 ***
+Value_LNG_Import      0.3054     0.1405   2.174   0.0298 *  
+R_WholeSale           0.2050     0.3094   0.663   0.5076    
+R_Choice              3.3279     0.3273  10.169   <2e-16 ***
+sanction_LNG_Import  -0.1135     0.1348  -0.842   0.3997    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 5.881 on 1945 degrees of freedom
+Multiple R-squared:  0.1452,	Adjusted R-squared:  0.1426 
+F-statistic: 55.07 on 6 and 1945 DF,  p-value: < 2.2e-16
+
+ Coal_duration_year  Coal_logCurrent_MW    Value_LNG_Import         R_WholeSale            R_Choice sanction_LNG_Import 
+           2.180652            1.986375            1.112809            1.347848            1.415925            1.024574 
+[1] "Coal_Share_PhasedOut"
+
+Call:
+lm(formula = formula_str, data = coal_model_small)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-29.669  -6.896  -2.059   4.339  69.408 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)           1.6502     0.4654   3.546 0.000401 ***
+Coal_duration_year    5.8682     0.4424  13.264  < 2e-16 ***
+Coal_logCurrent_MW   -8.0590     0.4222 -19.086  < 2e-16 ***
+Value_LNG_Import      0.5615     0.3160   1.777 0.075775 .  
+R_WholeSale          -1.5381     0.6962  -2.209 0.027269 *  
+R_Choice             12.5515     0.7364  17.045  < 2e-16 ***
+sanction_LNG_Import   0.2873     0.3033   0.948 0.343477    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 13.23 on 1945 degrees of freedom
+Multiple R-squared:  0.3063,	Adjusted R-squared:  0.3042 
+F-statistic: 143.1 on 6 and 1945 DF,  p-value: < 2.2e-16
+
+ Coal_duration_year  Coal_logCurrent_MW    Value_LNG_Import         R_WholeSale            R_Choice sanction_LNG_Import 
+           2.180652            1.986375            1.112809            1.347848            1.415925            1.024574 
